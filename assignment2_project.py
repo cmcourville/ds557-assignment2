@@ -29,7 +29,7 @@ from sklearn.cluster import KMeans
 TRAIN_WEEKS   = [1, 2, 3, 4]          # weeks used to train the model
 VAL_WEEK      = 5                      # week used to validate (check accuracy before grading)
 WEEK6_PATH    = 'week6.mat'            # path to week 6 data for final grading
-DATA_DIR      = '/mnt/user-data/uploads/'  # folder containing week1–5 .mat files
+DATA_DIR      = 'data/'                # folder containing week1–5 .mat files
 POLY_DEGREE   = 4                      # polynomial degree for Q1 regression
 K_MAX         = 10                     # maximum K to test in elbow method (Q2)
 
