@@ -55,27 +55,28 @@ The script expects the following `.mat` files. Each file contains a **336 × 5 m
 
 ## File Structure
 
-Place all files in the same directory before running:
+Place all data files in the `/data` folder:
 
 ```
 assignment2_project.py   ← main script
-week1.mat
-week2.mat
-week3.mat
-week4.mat
-week5.mat
-week6.mat                ← add this when available for grading
+/data/
+  week1.mat
+  week2.mat
+  week3.mat
+  week4.mat
+  week5.mat
+  week6.mat              ← add this when available for grading
 ```
 
 ---
 
 ## Configuration
 
-At the top of `assignment2_project.py`, update these variables if needed:
+At the top of `assignment2_project.py`, the data directory is already configured:
 
 ```python
-DATA_DIR   = '/path/to/your/mat/files/'  # folder containing week1–5 .mat files
-WEEK6_PATH = 'week6.mat'                 # path to week 6 file for grading
+DATA_DIR   = 'data/'                # folder containing week1–5 .mat files
+WEEK6_PATH = 'data/week6.mat'       # path to week 6 file for grading
 ```
 
 ---
@@ -92,9 +93,9 @@ This trains the model on weeks 1–4 and validates it on week 5.
 
 ### Grading run (week 6)
 
-When `week6.mat` becomes available:
+When `week6.mat` is available:
 
-1. Place `week6.mat` in the same directory as the script
+1. Place `week6.mat` in the `/data` folder
 2. Open `assignment2_project.py` and find this block near line 174:
 
 ```python
