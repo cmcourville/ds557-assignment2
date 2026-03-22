@@ -1,8 +1,7 @@
 # Assignment 2 — Location Privacy Analysis
 
 **Course:** Cybersecurity  
-**Due:** March 23, 2026 at 11:59pm  
-**Script:** `assignment2_project.py`
+**Script:** `cmcourville_assignment2.py`
 
 ---
 
@@ -72,46 +71,58 @@ assignment2_project.py   ← main script
 
 ## Configuration
 
-At the top of `assignment2_project.py`, the data directory is already configured:
+The script accepts a command-line argument to specify the data directory:
 
 ```python
-DATA_DIR   = 'data/'                # folder containing week1–5 .mat files
-WEEK6_PATH = 'data/week6.mat'       # path to week 6 file for grading
+--data-dir PATH  : Directory containing .mat files (default: data/)
 ```
+
+If no `--data-dir` is specified, it defaults to the `data/` folder.
 
 ---
 
 ## How to Run
 
-### Standard run (weeks 1–5)
+### Basic Usage
 
 ```bash
-python assignment2_project.py
+python assignment2_project.py [--data-dir PATH]
 ```
 
-This trains the model on weeks 1–4 and validates it on week 5.
+**Options:**
+- `--data-dir PATH`: Specify the directory containing .mat files (default: `data/`)
 
-### Grading run (week 6)
-
-When `week6.mat` is available:
-
-1. Place `week6.mat` in the `/data` folder
-2. Open `assignment2_project.py` and find this block near line 174:
-
-```python
-# --- UNCOMMENT BELOW WHEN WEEK 6 IS AVAILABLE ---
-# print("\n  Running predict_week() on week 6 (grading)...")
-# results_w6, acc_w6 = predict_week(WEEK6_PATH, 'week6')
-# results_w6.to_csv('week6_predictions.csv', index=False)
-# print(f"\n  Week 6 predictions saved to week6_predictions.csv")
-```
-
-3. Remove the `#` from those four lines
-4. Run the script again:
-
+**Examples:**
 ```bash
+# Use default data/ folder
 python assignment2_project.py
+
+# Specify custom data directory
+python assignment2_project.py --data-dir /path/to/data/
+
+# Use relative path
+python assignment2_project.py --data-dir ./datasets/
 ```
+
+### What the Script Does
+
+The script automatically:
+1. **Loads training data** (weeks 1–4) and **validation data** (week 5)
+2. **Trains a polynomial regression model** to predict location zones
+3. **Validates the model** on week 5 data
+4. **Runs K-Means clustering** to find natural location clusters
+5. **Generates plots** and saves them as `assignment2_results.png`
+6. **Automatically detects and processes week6.mat** if present (for grading)
+
+### Grading with Week 6
+
+When `week6.mat` becomes available after the deadline:
+
+1. Place `week6.mat` in your data directory (same folder as week1.mat–week5.mat)
+2. Run the script normally — it will automatically detect and process week6.mat
+3. The script will save predictions to `week6_predictions.csv` in the current working directory
+
+**No manual code changes required!** The script handles week 6 detection automatically.
 
 ---
 
