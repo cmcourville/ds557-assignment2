@@ -1,6 +1,6 @@
 # Assignment 2 — Location Privacy Analysis
 
-**Course:** Cybersecurity  
+**Course:** DS557 - Machine Learning in Cybersecurity  
 **Script:** `cmcourville_assignment2.py`
 
 ---
@@ -38,7 +38,7 @@ The script expects the following `.mat` files. Each file contains a **336 × 5 m
 | `week3.mat` | `week3` | Training | 336 |
 | `week4.mat` | `week4` | Training | 336 |
 | `week5.mat` | `week5` | Validation | 336 |
-| `week6.mat` | `week6` | **Grading** (available after deadline) | 336 |
+| `week6.mat` | `week6` | **Grading** | 336 |
 
 ### Data Columns
 
@@ -64,7 +64,7 @@ assignment2_project.py   ← main script
   week3.mat
   week4.mat
   week5.mat
-  week6.mat              ← add this when available for grading
+  week6.mat              ← Available after deadline
 ```
 
 ---
@@ -113,6 +113,21 @@ The script automatically:
 4. **Runs K-Means clustering** to find natural location clusters
 5. **Generates plots** and saves them as `assignment2_results.png`
 6. **Automatically detects and processes week6.mat** if present (for grading)
+
+### Design Decisions
+
+**Handling noisy data:** The GPS coordinates in this dataset contain noisy 
+readings where the recorded location occasionally deviates from the user's 
+actual zone. Polynomial regression handles this naturally because the continuous 
+output smooths over noisy readings before rounding corrects them to the 
+nearest valid label.
+
+**Feature choice — Latitude & Longitude:** The assignment asks to estimate 
+the label for each timestamp, where timestamp refers to each individual row 
+of data rather than the time value itself as a model input. Latitude and 
+Longitude are used as input features because they directly encode which 
+geographic zone the user is in, making them the most predictive features 
+available in the dataset.
 
 ### Grading with Week 6
 
@@ -224,7 +239,7 @@ COMPLETE
 | File | Description |
 |------|-------------|
 | `assignment2_results.png` | Three-panel plot: elbow curve, cluster scatter, regression output histogram |
-| `week6_predictions.csv` | Per-row predictions for week 6 (only generated when week 6 block is uncommented) |
+| `week6_predictions.csv` | Per-row predictions for week 6 (automatically generated when week6.mat is present in the data directory) |
 
 ### `week6_predictions.csv` format (when generated)
 
