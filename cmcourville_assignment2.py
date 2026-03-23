@@ -1,10 +1,10 @@
 """
-Cybersecurity Assignment 2
+DS577 Assignment 2
 Author  : Corrin M Courville 
-Due     : March 23, 2026
-Dataset : Google Maps location data collected over 5 weeks (every 30 min)
-Columns : Timestamp | Latitude | Longitude | Accuracy | Label
 
+REQUIRED LIBRARIES: numpy, pandas, matplotlib, scikit-learn, scipy
+INSTALLATION: 
+    pip install scipy numpy pandas matplotlib scikit-learn
 USAGE:
     python assignment2_project.py [--data-dir PATH]
     
@@ -40,14 +40,14 @@ parser.add_argument('--data-dir', type=str, default='data/',
 args = parser.parse_args()
 
 # configuration of input data files
-TRAIN_WEEKS   = [1, 2, 3, 4]           # weeks used to train the model
-VAL_WEEK      = 5                      # week used to validate (check accuracy before grading)
-DATA_DIR      = args.data_dir          # folder containing week1–5 .mat files (from command line)
+TRAIN_WEEKS   = [1, 2, 3, 4] # weeks used to train the model
+VAL_WEEK      = 5 # week used to validate (check accuracy before grading)
+DATA_DIR      = args.data_dir # folder containing week1–5 .mat files (from command line)
 if not DATA_DIR.endswith(os.sep):
-    DATA_DIR += os.sep                 # ensure trailing separator
-WEEK6_PATH    = os.path.join(DATA_DIR, 'week6.mat')  # path to week 6 data for grading
-POLY_DEGREE   = 4                      # polynomial degree for Q1 regression
-K_MAX         = 10                     # maximum K to test in elbow method (Q2)
+    DATA_DIR += os.sep # ensure trailing separator
+WEEK6_PATH    = os.path.join(DATA_DIR, 'week6.mat') # path to week 6 data for grading
+POLY_DEGREE   = 4 # polynomial degree for Q1 regression
+K_MAX         = 10 # maximum K to test in elbow method (Q2)
 
 
 # helper function - load a single .mat file into a DataFrame
@@ -81,9 +81,19 @@ train = all_data[all_data['Week'].isin(TRAIN_WEEKS)].copy()
 # Validation set: week 5 (336 rows) — used to verify accuracy before grading
 val = all_data[all_data['Week'] == VAL_WEEK].copy()
 
+# --- handling noisy data ---
+# The dataset has noisy GPS coordinates 
+# Regression handles this naturally by continuously smoothing over noisy reading 
+#  before rounding snaps the result to the nearest valid label integer
+# correcting minor boundary errors.
+
 # Features for regression: Latitude and Longitude
 # Rationale: the Label encodes a geographic zone. Lat/Lon directly determine which
 # zone the user is in, making them the most predictive features available.
+# The assignment says to "estimate the label for each timestamp", which implies
+# timestamp refers to each individual row of data, not thhe timestamps value itself
+# nThis model produces one predicted label per row, satisfying that requirement 
+# regardless of which input features are used to make that prediction.
 X_train = train[['Lat', 'Lon']].values
 y_train = train['Label'].values
 X_val   = val[['Lat', 'Lon']].values
